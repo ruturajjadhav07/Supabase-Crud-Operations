@@ -7,6 +7,6 @@ if (!supabaseUrl || !supabaseKey) {
   throw new Error("Missing Supabase URL or Key. Check your .env file.");
 }
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const Supabase = createClient(supabaseUrl, supabaseKey);
 
-export default supabase;
+export default Supabase;
