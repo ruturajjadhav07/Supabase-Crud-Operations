@@ -24,7 +24,7 @@ const Read = () => {
 
   return (
     <div className="container">
-      <h2 className="my-4 text-center">User List</h2>
+      <h2 className="my-4 text-center">User List</h2> 
 
       {error && <div className="alert alert-danger">Error: {error}</div>}
 
