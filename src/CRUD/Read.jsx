@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Supabase from "../Config/Supabase";
+import { useNavigate } from "react-router-dom";
 
 const Read = () => {
   const [getData, setGetData] = useState([]);
   const [error, setError] = useState(null);
+
+  let navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,9 +25,20 @@ const Read = () => {
     fetchData();
   }, []);
 
+  const Add = (e) => {
+    e.preventDefault();
+    navigate("/create");
+  };
+
   return (
     <div className="container">
-      <h2 className="my-4 text-center">User List</h2> 
+      <div className="d-flex justify-content-between mt-2">
+        <h2 className=" text-center">User List</h2>
+
+        <h2 className="btn btn-primary" onClick={Add}>
+          Add
+        </h2>
+      </div>
 
       {error && <div className="alert alert-danger">Error: {error}</div>}
 
