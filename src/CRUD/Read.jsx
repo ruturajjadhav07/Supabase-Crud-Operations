@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import Supabase from "../Config/Supabase";
 import { useNavigate } from "react-router-dom";
 
@@ -31,7 +32,7 @@ const Read = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container fs-5">
       <div className="d-flex justify-content-between mt-2">
         <h2 className=" text-center">User List</h2>
 
@@ -50,6 +51,8 @@ const Read = () => {
             <th scope="col">Email</th>
             <th scope="col">Number</th>
             <th scope="col">Instagram</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -70,6 +73,15 @@ const Read = () => {
                 ) : (
                   "N/A"
                 )}
+              </td>
+              <td>
+                <i class="bi bi-trash-fill btn" style={{ color: "red" }}></i>
+              </td>
+              <td>
+                <i
+                  class="bi bi-pencil-square btn"
+                  style={{ color: "grey" }}
+                ></i>
               </td>
             </tr>
           ))}
