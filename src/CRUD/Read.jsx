@@ -7,38 +7,40 @@ import { useNavigate } from "react-router-dom";
 const Read = () => {
   const [getData, setGetData] = useState([]);
   const [error, setError] = useState(null);
-
   let navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await Supabase.from("users").select("*");
-
       if (error) {
         console.error("Error fetching data:", error.message);
         setError(error.message);
       } else {
-        // console.log("Fetched Data:", data);
         setGetData(data);
       }
     };
-
     fetchData();
   }, []);
 
-  const Add = (e) => {
-    e.preventDefault();
+  const Add = () => {
     navigate("/create");
+  };
+
+  const handleDelete = async (id) => {
+    const { error } = await Supabase.from("users").delete().eq("id", id);
+    if (error) {
+      console.error("Error deleting data:", error.message);
+      setError(error.message);
+    } else {
+      setGetData((prevData) => prevData.filter((item) => item.id !== id));
+    }
   };
 
   return (
     <div className="container fs-5">
       <div className="d-flex justify-content-between mt-2">
-        <h2 className=" text-center">User List</h2>
-
-        <h2 className="btn btn-primary" onClick={Add}>
-          Add
-        </h2>
+        <h2 className="text-center">User List</h2>
+        <button className="btn btn-primary mb-2" onClick={Add}>Add</button>
       </div>
 
       {error && <div className="alert alert-danger">Error: {error}</div>}
@@ -52,14 +54,13 @@ const Read = () => {
             <th scope="col">Number</th>
             <th scope="col">Instagram</th>
             <th scope="col">Delete</th>
-            <th scope="col">Edit</th>
           </tr>
         </thead>
         <tbody>
           {getData.map((item, index) => (
-            <tr key={item.id || index} className="text-center">
+            <tr key={item.id} className="text-center">
               <td>{index + 1}</td>
-              <td>{new Date(item.created_at).toLocaleString().toString()}</td>
+              <td>{new Date(item.created_at).toLocaleString()}</td>
               <td>{item.email}</td>
               <td>{item.number}</td>
               <td>
@@ -67,6 +68,7 @@ const Read = () => {
                   <a
                     href={`https://www.instagram.com/${item.instagram}`}
                     target="_blank"
+                    rel="noopener noreferrer"
                   >
                     {item.instagram}
                   </a>
@@ -75,12 +77,10 @@ const Read = () => {
                 )}
               </td>
               <td>
-                <i class="bi bi-trash-fill btn" style={{ color: "red" }}></i>
-              </td>
-              <td>
                 <i
-                  class="bi bi-pencil-square btn"
-                  style={{ color: "grey" }}
+                  className="bi bi-trash-fill btn"
+                  onClick={() => handleDelete(item.id)}
+                  style={{ color: "red" }}
                 ></i>
               </td>
             </tr>

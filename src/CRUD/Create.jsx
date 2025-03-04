@@ -12,7 +12,6 @@ const Create = () => {
   });
 
   const [error, setError] = useState(null);
-
   let navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,9 +24,7 @@ const Create = () => {
 
   const Add = async (e) => {
     e.preventDefault();
-
     const { name, email, number, instagram } = form;
-
     const { data, error } = await Supabase.from("users").insert([
       {
         name,
@@ -41,7 +38,6 @@ const Create = () => {
       console.log(error);
       setError(error.message);
     } else {
-      //   console.log("User added:", data);
       setForm({
         name: "",
         email: "",
@@ -52,10 +48,15 @@ const Create = () => {
     }
   };
 
+  const back = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
+
   return (
-    <div>
-      <div className="container col-md-4">
-        <h1 className=" text-center text-muted">Add User</h1>
+    <div className="d-flex justify-content-center align-items-center vh-100">
+      <div className="container col-md-4 shadow p-4 rounded">
+        <h1 className="text-center text-muted">Add User</h1>
         <form onSubmit={Add}>
           <div className="form-group my-2">
             <input
@@ -82,7 +83,7 @@ const Create = () => {
           <div className="form-group my-2">
             <input
               className="form-control"
-              placeholder="Enter number"
+              placeholder="Enter Number"
               type="text"
               name="number"
               value={form.number}
@@ -104,8 +105,10 @@ const Create = () => {
           <button className="btn btn-primary w-100" type="submit">
             Add
           </button>
+          <button className="btn btn-secondary w-100 my-2" onClick={back}>
+            Back
+          </button>
         </form>
-
         {error && <div className="alert alert-danger mt-2">{error}</div>}
       </div>
     </div>
